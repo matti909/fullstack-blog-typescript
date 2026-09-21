@@ -1,8 +1,9 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
+
 const app = express();
 const port = process.env.PORT ?? "9001";
 
-app.get("/", (req, res) => {
+app.get("/", (_req: Request, res: Response) => {
   res.send("Hello World!");
   console.log("Response sent");
 });
