@@ -12,11 +12,10 @@ interface ListPostsQuery {
 }
 
 export const createPost = async (
-  userId: string,
   data: Pick<Blog, "contents" | "tags" | "title">,
 ) => {
   const { contents, tags, title } = data;
-  const post = new Post({ author: userId, contents, tags, title });
+  const post = new Post({ contents, tags, title });
   return await post.save();
 };
 
