@@ -1,5 +1,5 @@
 import type { SortOrder } from "mongoose";
-import { Post, type Blog } from "@/models/post.js";
+import { Post, type Blog } from "../models/post.js";
 
 interface ListPostsOptions {
   sortBy?: string;

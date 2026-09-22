@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createPost } from "../services/post.service.js";
 
-export const generatePost = async (
+const generatePost = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -24,3 +24,5 @@ export const generatePost = async (
     return res.status(500).json({ message: "Failed to create blog" });
   }
 };
+
+export { generatePost };

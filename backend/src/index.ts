@@ -1,13 +1,21 @@
-import express, { type Request, type Response } from "express";
+import app from "./app.js";
+import { ConnectDB } from "./config/db.js";
 
-const app = express();
-const port = process.env.PORT ?? "9001";
+import "dotenv/config";
+const PORT = process.env.PORT || 4002;
 
-app.get("/", (_req: Request, res: Response) => {
-  res.send("Hello World!");
-  console.log("Response sent");
-});
+async function Boostrap() {
+  try {
+    await ConnectDB();
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+    app.listen(PORT, () => {
+      console.log("Server running OK!!");
+    });
+
+    console.log("Server is listening on port: ", PORT);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+Boostrap();
