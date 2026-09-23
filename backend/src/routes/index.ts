@@ -1,25 +1,6 @@
 import { Router } from "express";
-import { readdirSync } from "fs";
+import { router as postRouter } from "./post.route.js";
 
-const PATH_ROUTER = `${__dirname}`;
-const router = Router();
+export const apiRouter = Router();
 
-/**
- *
- * @returns
- */
-const cleanFileName = (fileName: string) => {
-  const file = fileName.split(".").shift();
-  return file;
-};
-
-readdirSync(PATH_ROUTER).filter((fileName) => {
-  const cleanName = cleanFileName(fileName);
-  if (cleanName !== "index") {
-    import(`./${cleanName}`).then((moduleRouter) => {
-      router.use(`/${cleanName}`, moduleRouter.router);
-    });
-  }
-});
-
-export { router };
+apiRouter.use("/posts", postRouter);

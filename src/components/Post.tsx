@@ -1,10 +1,11 @@
-interface post {
+export interface iPost {
+  _id?: string;
   title: string;
   contents: string;
-  author?: string;
+  author: string;
 }
 
-const post = ({ title, contents, author }: post) => {
+export const Post = ({ contents, title, author }: iPost) => {
   return (
     <article>
       <h3>{title}</h3>
@@ -18,5 +19,3 @@ const post = ({ title, contents, author }: post) => {
     </article>
   );
 };
-
-export default post;
