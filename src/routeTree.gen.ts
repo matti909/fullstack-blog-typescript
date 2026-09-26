@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Fetch_postRouteImport } from './routes/fetch_post'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Fetch_postRoute = Fetch_postRouteImport.update({
+  id: '/fetch_post',
+  path: '/fetch_post',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fetch_post': typeof Fetch_postRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fetch_post': typeof Fetch_postRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fetch_post': typeof Fetch_postRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/fetch_post'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/fetch_post'
+  id: '__root__' | '/' | '/fetch_post'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Fetch_postRoute: typeof Fetch_postRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fetch_post': {
+      id: '/fetch_post'
+      path: '/fetch_post'
+      fullPath: '/fetch_post'
+      preLoaderRoute: typeof Fetch_postRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Fetch_postRoute: Fetch_postRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,7 +2,7 @@ import app from "./app.js";
 import { ConnectDB } from "./config/db.js";
 
 import "dotenv/config";
-const PORT = process.env.PORT || 4002;
+const PORT = process.env.PORT ?? 4002;
 
 async function Boostrap() {
   try {
@@ -18,4 +18,4 @@ async function Boostrap() {
   }
 }
 
-Boostrap();
+void Boostrap();

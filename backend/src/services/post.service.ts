@@ -1,5 +1,7 @@
 import type { SortOrder } from "mongoose";
-import { Post, type Blog } from "../models/post.js";
+
+import { type Blog, Post } from "../models/post.js";
+import { postRepository } from "../repositories/post.repository.js";
 
 interface ListPostsOptions {
   sortBy?: string;
@@ -11,36 +13,41 @@ interface ListPostsQuery {
   tags?: string | string[];
 }
 
-export const createPost = async (
-  data: Pick<Blog, "contents" | "tags" | "title">,
-) => {
+const createPost = async (data: Pick<Blog, "contents" | "tags" | "title">) => {
   const { contents, tags, title } = data;
   const post = new Post({ contents, tags, title });
   return await post.save();
 };
 
-export const listPosts = async (
+const listPosts = async (
   query: ListPostsQuery = {},
   options: ListPostsOptions = {},
 ) => {
-  const { sortBy = "createdAt", sortOrder = "descending" } = options;
-  return await Post.find(query).sort({ [sortBy]: sortOrder });
+  return await postRepository.getAll({ filter: query, sort: options });
 };
 
-export async function listAllPosts(options: ListPostsOptions = {}) {
+const listAllPosts = async (options: ListPostsOptions = {}) => {
   return await listPosts({}, options);
-}
+};
 
-export async function listPostsByAuthor(
+const listPostsByAuthor = async (
   author: string,
   options: ListPostsOptions = {},
-) {
+) => {
   return await listPosts({ author }, options);
-}
+};
 
-export async function listPostsByTag(
+async function listPostsByTag(
   tags: string[],
   options: ListPostsOptions = {},
 ) {
   return await listPosts({ tags }, options);
 }
+
+export {
+  createPost,
+  listAllPosts,
+  listPosts,
+  listPostsByAuthor,
+  listPostsByTag,
+};

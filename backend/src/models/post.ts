@@ -1,11 +1,14 @@
-import { Schema, model, InferSchemaType } from "mongoose";
+import { InferSchemaType, model, Schema } from "mongoose";
 
-const postSchema = new Schema({
-  title: { type: String, required: true },
-  author: String,
-  contents: String,
-  tags: [String],
-});
+const postSchema = new Schema(
+  {
+    author: String,
+    contents: String,
+    tags: [String],
+    title: { required: true, type: String },
+  },
+  { versionKey: false },
+);
 
 export type Blog = InferSchemaType<typeof postSchema>;
 export const Post = model("post", postSchema);

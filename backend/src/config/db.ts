@@ -11,11 +11,13 @@ export const ConnectDB = async (): Promise<void> => {
 
     await mongoose.connect(MONGODB_URI);
 
-    process.on("SIGINT", async () => {
-      await mongoose.connection.close();
-      process.exit(0);
+    process.on("SIGINT", () => {
+      void (async () => {
+        await mongoose.connection.close();
+        process.exit(0);
+      })();
     });
   } catch (error) {
-    throw new Error(`Failed to connect to mongoDB: ${error}`);
+    throw new Error("Failed to connect to mongoDB", { cause: error });
   }
 };
