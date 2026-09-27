@@ -1,22 +1,24 @@
 export const CreatePost = () => {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div>
+      <div className="space-y-2">
         <label htmlFor="">Title: </label>
         <input
+          className="block font-medium text-slate-900"
           type="text"
+          placeholder="Hello..."
           name="create-title"
-          value="create-title"
           id="create-title"
         />
       </div>
       <br />
-      <div>
+      <div className="space-y-2">
         <label htmlFor="create-author">Author: </label>
         <input
+          className="block font-medium text-slate-900"
           type="text"
           name="create-author"
-          value="create-author"
+
           id="create-author"
         />
       </div>
@@ -24,7 +26,7 @@ export const CreatePost = () => {
       <textarea></textarea>
       <br />
       <br />
-      <input type="submit" name="" value="Create" />
+      <input type="submit" name="" />
     </form>
   );
 };

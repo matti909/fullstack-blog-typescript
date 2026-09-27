@@ -1,3 +1,5 @@
+import appCss from "../style.css?url";
+
 import type { QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import {
@@ -23,6 +25,7 @@ export const Route = createRootRouteWithContext<{
         title: "TanStack Start Starter",
       },
     ],
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   component: RootComponent,
 });

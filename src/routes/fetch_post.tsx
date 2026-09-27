@@ -1,4 +1,4 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { listPosts } from "../api/posts";
 
@@ -16,5 +16,10 @@ export const getPosts = queryOptions({
 });
 
 function RouteComponent() {
-  return <div>Hello "/fetch_post"!</div>;
+  const { data: data } = useSuspenseQuery(getPosts);
+  return (
+    <div>
+      Hello! <div>{data.map((value) => value.contents)}</div>
+    </div>
+  );
 }
