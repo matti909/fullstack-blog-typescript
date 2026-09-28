@@ -4,9 +4,7 @@ import type {
   ListPostsResponse,
 } from "../types/post";
 
-// TODO: mover a variable de entorno (ej. import.meta.env.VITE_API_URL).
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL!;
-console.log(API_BASE_URL);
 
 function buildPostsSearchParams(options: ListPostsOptions): URLSearchParams {
   const { filter = {}, sort = {} } = options;

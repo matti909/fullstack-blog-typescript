@@ -1,25 +1,25 @@
+import InputCustom from "./InputCustom";
+
 export const CreatePost = () => {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="space-y-2">
-        <label htmlFor="">Title: </label>
-        <input
-          className="block font-medium text-slate-900"
+        <InputCustom
           type="text"
           placeholder="Hello..."
           name="create-title"
-          id="create-title"
+          label="Title"
         />
       </div>
       <br />
       <div className="space-y-2">
-        <label htmlFor="create-author">Author: </label>
-        <input
-          className="block font-medium text-slate-900"
+        <InputCustom
+          className="bg-cyan-950"
           type="text"
+          placeholder="Here author name..."
           name="create-author"
-
           id="create-author"
+          label="Author"
         />
       </div>
       <br />

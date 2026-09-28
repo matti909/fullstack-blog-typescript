@@ -5,6 +5,7 @@ import { Sorting } from "../components/Sorting";
 import { Filters } from "../components/Filters";
 //import { PostList } from "../components/PostList";
 import { CreatePost } from "../components/CreatePost";
+import { Nav } from "../components/Nav";
 
 export const Route = createFileRoute("/")({
   component: IndexComponent,
@@ -12,15 +13,20 @@ export const Route = createFileRoute("/")({
 
 function IndexComponent() {
   return (
-    <div style={{ padding: 8 }}>
-      <CreatePost />
-      <br />
-      <hr />
-      Filter by:
-      <Filters field="author" />
-      <br />
-      <Sorting fields={["createdAt"]} />
-      <hr />
+    <div className="app">
+      <header className="header">
+        <Nav />
+      </header>
+      <main className="content">
+        <CreatePost />
+        <br />
+        <hr />
+        Filter by:
+        <Filters field="author" />
+        <br />
+        <Sorting fields={["createdAt"]} />
+        <hr />
+      </main>
     </div>
   );
 }
