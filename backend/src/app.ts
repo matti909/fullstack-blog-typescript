@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/api", apiRouter);
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Hello World from Express!");
 });
 

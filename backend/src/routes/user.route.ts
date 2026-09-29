@@ -4,6 +4,6 @@ import { postUser } from "../controllers/user.controller.js";
 
 const router = Router();
 
-router.post("/user/signup", postUser);
+router.post("/signup", postUser);
 
 export { router };
