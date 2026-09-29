@@ -1,7 +1,7 @@
 import type { SortOrder } from "mongoose";
 
-import { type Blog, Post } from "../models/post.js";
-import { postRepository } from "../repositories/post.repository.js";
+import { type Blog, Post } from "./post.model.js";
+import { postRepository } from "./post.repository.js";
 
 interface ListPostsOptions {
   sortBy?: string;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createPost, listPosts } from "../services/post.service.js";
+import { createPost, listPosts } from "./post.service.js";
 
 const VALID_SORT_ORDERS = ["asc", "ascending", "desc", "descending"] as const;
 
@@ -24,9 +24,7 @@ const stringArray = (value: unknown): string | string[] | undefined => {
   }
   if (Array.isArray(value)) {
     const items: unknown[] = value;
-    return items.every((item) => typeof item === "string")
-      ? (items as string[])
-      : undefined;
+    return items.every((item) => typeof item === "string") ? items : undefined;
   }
   return undefined;
 };

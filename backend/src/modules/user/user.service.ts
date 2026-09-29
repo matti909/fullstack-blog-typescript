@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { User } from "../models/user.js";
+import { User } from "./user.model.js";
 
 interface IUser {
   password: string;
