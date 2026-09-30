@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { User } from "./user.model.js";
+import { userRepository } from "./user.repository.js";
 
 interface IUser {
   password: string;
@@ -10,9 +10,8 @@ interface IUser {
 export async function createUser({ password, username }: IUser) {
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
+  return await userRepository.create({
     password: hashPassword,
     username,
   });
-  return await user.save();
 }

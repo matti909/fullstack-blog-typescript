@@ -7,8 +7,11 @@ const postSchema = new Schema(
     tags: [String],
     title: { required: true, type: String },
   },
-  { versionKey: false },
+  { timestamps: true, versionKey: false },
 );
 
-export type Blog = InferSchemaType<typeof postSchema>;
+export type Blog = InferSchemaType<typeof postSchema> & {
+  createdAt: Date;
+  updatedAt: Date;
+};
 export const Post = model("post", postSchema);
