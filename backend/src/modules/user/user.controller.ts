@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createUser } from "./user.service.js";
+import { createUser, loginUser } from "./user.service.js";
 
 const postUser = async (req: Request, res: Response) => {
   try {
@@ -15,4 +15,22 @@ const postUser = async (req: Request, res: Response) => {
   }
 };
 
-export { postUser };
+const signinUser = async (req: Request, res: Response) => {
+  try {
+    const { password, username } = req.body as {
+      password: string;
+      username: string;
+    };
+    const token = await loginUser({ password, username });
+    return res.status(200).send({
+      token: token,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({
+      error: "login failed,",
+    });
+  }
+};
+
+export { postUser, signinUser };

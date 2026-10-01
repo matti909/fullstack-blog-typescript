@@ -1,0 +1,11 @@
+# Blog API — curls de una sola línea (compatibles con nushell: sin backslash de continuación)
+# Servidor: npm run dev (http://localhost:4001)
+
+# 1. REGISTER — crear usuario (esperado: 201 {"username":"matdev"})
+curl -s -X POST http://localhost:4001/api/users/signup -H "Content-Type: application/json" -d '{"username": "matdev", "password": "secret123"}'
+
+# 2. LOGIN — iniciar sesión (esperado: 200 {"token":{"token":"<jwt>"}})
+curl -s -X POST http://localhost:4001/api/users/login -H "Content-Type: application/json" -d '{"username": "matdev", "password": "secret123"}'
+
+# 3. LOGIN con password incorrecta (esperado: 400 {"error":"login failed,"})
+curl -s -X POST http://localhost:4001/api/users/login -H "Content-Type: application/json" -d '{"username": "matdev", "password": "wrongpass"}'

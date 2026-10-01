@@ -3,6 +3,7 @@ import type {
   ProjectionType,
   QueryFilter,
   QueryOptions,
+  Require_id,
   SortOrder,
   UpdateQuery,
 } from "mongoose";
@@ -24,7 +25,7 @@ export interface GetAllSort {
 }
 
 export interface IBaseRepository<T> {
-  create(data: Partial<T>): Promise<T>;
+  create(data: Partial<T>): Promise<Require_id<T>>;
 
   deleteById?(
     id: string,
@@ -46,11 +47,7 @@ export interface IBaseRepository<T> {
     options?: QueryOptions,
   ): Promise<HydratedDocument<T> | null>;
 
-  findOne?(
-    filter: QueryFilter<T>,
-    projection?: ProjectionType<T>,
-    options?: QueryOptions,
-  ): Promise<HydratedDocument<T> | null>;
+  findOne(filter: QueryFilter<T>): Promise<null | Require_id<T>>;
 
   findPaginated?(
     filter?: QueryFilter<T>,
@@ -58,7 +55,7 @@ export interface IBaseRepository<T> {
     projection?: ProjectionType<T>,
   ): Promise<PaginatedResult<T>>;
 
-  getAll(opts?: GetAllOptions<T>): Promise<T[]>;
+  getAll(opts?: GetAllOptions<T>): Promise<Require_id<T>[]>;
 
   updateById?(
     id: string,
@@ -93,11 +90,12 @@ export interface PaginationOptions {
 }
 
 interface FindableModel<T> {
-  new (data?: Partial<T>): { save(): Promise<T> };
+  new (data?: Partial<T>): { save(): Promise<Require_id<T>> };
   find(filter?: QueryFilter<T>): PageableQuery<T>;
+  findOne(filter?: QueryFilter<T>): Promise<null | Require_id<T>>;
 }
 
-interface PageableQuery<T> extends Promise<T[]> {
+interface PageableQuery<T> extends Promise<Require_id<T>[]> {
   limit(limit: number): PageableQuery<T>;
   skip(skip: number): PageableQuery<T>;
   sort(sort: Record<string, SortOrder> | string): PageableQuery<T>;
@@ -106,15 +104,21 @@ interface PageableQuery<T> extends Promise<T[]> {
 export const createBaseRepository = <T>(
   model: FindableModel<T>,
 ): IBaseRepository<T> => {
-  async function create(data: Partial<T>): Promise<T> {
+  async function create(data: Partial<T>): Promise<Require_id<T>> {
     return await new model(data).save();
+  }
+
+  async function findOne(
+    filter: QueryFilter<T>,
+  ): Promise<null | Require_id<T>> {
+    return await model.findOne(filter);
   }
 
   async function getAll({
     filter = {},
     pagination,
     sort,
-  }: GetAllOptions<T> = {}): Promise<T[]> {
+  }: GetAllOptions<T> = {}): Promise<Require_id<T>[]> {
     const { sortBy = "createdAt", sortOrder = "descending" } = sort ?? {};
 
     let query = model.find(filter).sort({ [sortBy]: sortOrder });
@@ -127,5 +131,5 @@ export const createBaseRepository = <T>(
     return await query;
   }
 
-  return { create, getAll };
+  return { create, findOne, getAll };
 };
