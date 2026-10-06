@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const ConnectDB = async (): Promise<void> => {
+const ConnectDB = async (): Promise<void> => {
   try {
     const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -24,3 +24,5 @@ export const ConnectDB = async (): Promise<void> => {
     throw new Error("Failed to connect to mongoDB", { cause: error });
   }
 };
+
+export { ConnectDB };

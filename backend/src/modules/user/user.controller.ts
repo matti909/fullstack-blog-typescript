@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createUser, loginUser } from "./user.service.js";
+import { createUser, getUserById, loginUser } from "./user.service.js";
 
 const postUser = async (req: Request, res: Response) => {
   try {
@@ -21,9 +21,10 @@ const signinUser = async (req: Request, res: Response) => {
       password: string;
       username: string;
     };
-    const token = await loginUser({ password, username });
+    const { token, user } = await loginUser({ password, username });
     return res.status(200).send({
-      token: token,
+      token,
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -33,4 +34,18 @@ const signinUser = async (req: Request, res: Response) => {
   }
 };
 
-export { postUser, signinUser };
+const getUser = async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.params as { _id: string };
+    const user = await getUserById(_id);
+    if (!user) {
+      return res.status(404).send({ error: "user not found" });
+    }
+    return res.status(200).send(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ error: "invalid user id" });
+  }
+};
+
+export { getUser, postUser, signinUser };

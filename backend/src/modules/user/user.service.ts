@@ -17,6 +17,12 @@ export async function createUser({ password, username }: IUser) {
   });
 }
 
+export async function getUserById(_id: string) {
+  const user = await userRepository.findById(_id);
+  if (!user) return null;
+  return { _id: user._id, username: user.username };
+}
+
 export async function loginUser({ password, username }: IUser) {
   const user = await userRepository.findOne({ username });
 
@@ -40,5 +46,10 @@ export async function loginUser({ password, username }: IUser) {
     expiresIn: "24h",
   });
 
-  return { token: token };
+  return {
+    token,
+    user: { _id: user._id, username: user.username },
+  };
 }
+
+

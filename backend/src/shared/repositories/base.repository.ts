@@ -41,7 +41,7 @@ export interface IBaseRepository<T> {
     options?: QueryOptions,
   ): Promise<HydratedDocument<T>[]>;
 
-  findById?(
+  findById(
     id: string,
     projection?: ProjectionType<T>,
     options?: QueryOptions,
@@ -92,6 +92,11 @@ export interface PaginationOptions {
 interface FindableModel<T> {
   new (data?: Partial<T>): { save(): Promise<Require_id<T>> };
   find(filter?: QueryFilter<T>): PageableQuery<T>;
+  findById(
+    id: string,
+    projection?: ProjectionType<T>,
+    options?: QueryOptions,
+  ): Promise<HydratedDocument<T> | null>;
   findOne(filter?: QueryFilter<T>): Promise<null | Require_id<T>>;
 }
 
@@ -106,6 +111,14 @@ export const createBaseRepository = <T>(
 ): IBaseRepository<T> => {
   async function create(data: Partial<T>): Promise<Require_id<T>> {
     return await new model(data).save();
+  }
+
+  async function findById(
+    id: string,
+    projection?: ProjectionType<T>,
+    options?: QueryOptions,
+  ): Promise<HydratedDocument<T> | null> {
+    return await model.findById(id, projection, options);
   }
 
   async function findOne(
@@ -131,5 +144,5 @@ export const createBaseRepository = <T>(
     return await query;
   }
 
-  return { create, findOne, getAll };
+  return { create, findById, findOne, getAll };
 };
