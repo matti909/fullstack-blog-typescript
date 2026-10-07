@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd backend && npm ci && cd .. && pnpm build && cd backend && npm run build",
+  "outputDirectory": "dist/client",
+  "rewrites": [
+    { "source": "/api", "destination": "/api/backend" },
+    { "source": "/api/(.*)", "destination": "/api/backend" },
+    { "source": "/(.*)", "destination": "/api/ssr" }
+  ]
+}
