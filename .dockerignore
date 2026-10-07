@@ -1,0 +1,11 @@
+.git
+node_modules
+backend/node_modules
+backend/dist
+dist
+coverage
+.tanstack
+.vscode
+.env
+**/.env
+*.log
