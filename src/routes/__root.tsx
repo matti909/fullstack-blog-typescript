@@ -8,9 +8,14 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
+import { AuthProvider, type AuthSession } from "../auth";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
+  auth: AuthSession;
+  head: string;
 }>()({
   head: () => ({
     meta: [
@@ -26,6 +31,32 @@ export const Route = createRootRouteWithContext<{
       },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
+    scripts: [
+      // Development scripts
+      ...(!import.meta.env.PROD
+        ? [
+            {
+              type: "module",
+              children: `import RefreshRuntime from "/@react-refresh"
+                RefreshRuntime.injectIntoGlobalHook(window)
+                window.$RefreshReg$ = () => {}
+                window.$RefreshSig$ = () => (type) => type
+                window.__vite_plugin_react_preamble_installed__ = true`,
+            },
+            {
+              type: "module",
+              src: "/@vite/client",
+            },
+          ]
+        : []),
+      // Entry script
+      {
+        type: "module",
+        src: import.meta.env.PROD
+          ? "/entry-client.js"
+          : "/src/entry-client.tsx",
+      },
+    ],
   }),
   component: RootComponent,
 });
@@ -33,7 +64,9 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     </RootDocument>
   );
 }
@@ -47,6 +80,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body>
         {children}
         <Scripts />
+        <TanStackRouterDevtools />
       </body>
     </html>
   );

@@ -1,0 +1,51 @@
+.createpost {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 48px 20px;
+  font-family: Inter, system-ui, sans-serif;
+  color: #111;
+  background: #fff;
+}
+
+.createpost-kicker {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.createpost-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 0 0 8px 0;
+}
+
+.createpost-desc {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 20px 0;
+}
+
+.createpost form {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.createpost textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.createpost input[type="submit"] {
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}

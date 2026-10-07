@@ -6,5 +6,7 @@
     "target": "ES2022",
     "skipLibCheck": true,
     "strictNullChecks": true
-  }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }

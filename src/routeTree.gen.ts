@@ -9,78 +9,135 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as Fetch_postRouteImport } from './routes/fetch_post'
+import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutFetch_postRouteImport } from './routes/_layout/fetch_post'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Fetch_postRoute = Fetch_postRouteImport.update({
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutFetch_postRoute = LayoutFetch_postRouteImport.update({
   id: '/fetch_post',
   path: '/fetch_post',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/fetch_post': typeof Fetch_postRoute
+  '/': typeof LayoutIndexRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/fetch_post': typeof LayoutFetch_postRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/fetch_post': typeof Fetch_postRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/fetch_post': typeof LayoutFetch_postRoute
+  '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/fetch_post': typeof Fetch_postRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/_layout/fetch_post': typeof LayoutFetch_postRoute
+  '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fetch_post'
+  fullPaths: '/' | '/login' | '/signup' | '/fetch_post'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fetch_post'
-  id: '__root__' | '/' | '/fetch_post'
+  to: '/login' | '/signup' | '/fetch_post' | '/'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/login'
+    | '/signup'
+    | '/_layout/fetch_post'
+    | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  Fetch_postRoute: typeof Fetch_postRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_layout': {
+      id: '/_layout'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof LayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/fetch_post': {
-      id: '/fetch_post'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/fetch_post': {
+      id: '/_layout/fetch_post'
       path: '/fetch_post'
       fullPath: '/fetch_post'
-      preLoaderRoute: typeof Fetch_postRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof LayoutFetch_postRouteImport
+      parentRoute: typeof LayoutRoute
     }
   }
 }
 
+interface LayoutRouteChildren {
+  LayoutFetch_postRoute: typeof LayoutFetch_postRoute
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutFetch_postRoute: LayoutFetch_postRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  Fetch_postRoute: Fetch_postRoute,
+  LayoutRoute: LayoutRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

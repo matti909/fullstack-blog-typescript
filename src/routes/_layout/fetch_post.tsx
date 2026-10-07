@@ -1,8 +1,8 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { listPosts } from "../api/posts";
+import { listPosts } from "../../api/posts";
 
-export const Route = createFileRoute("/fetch_post")({
+export const Route = createFileRoute("/_layout/fetch_post")({
   loader: async ({ context }) => {
     await context.queryClient.query(getPosts);
   },

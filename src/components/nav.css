@@ -1,0 +1,39 @@
+.topnav {
+  max-width: 900px;
+  margin: 12px auto;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.topnav a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+.topnav-logo {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.topnav-center {
+  display: flex;
+}
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+}
+
+.topnav-signup {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 4px 10px;
+}

@@ -1,0 +1,111 @@
+.listpost {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: Inter, system-ui, sans-serif;
+  color: #111;
+  background: #fff;
+}
+
+.listpost-kicker {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 12px 0;
+}
+
+.listpost-title {
+  text-align: center;
+  font-size: 40px;
+  line-height: 1.1;
+  margin: 0 0 24px 0;
+  font-weight: 800;
+}
+
+.listpost-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.listpost-copy {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.listpost-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.listpost-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.listpost-filters input,
+.listpost-filters select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.listpost-filters button {
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.listpost-status {
+  color: #666;
+  font-size: 14px;
+}
+
+.listpost-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listpost-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.listpost-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+}
+
+.listpost-excerpt {
+  margin: 0 0 12px 0;
+  color: #444;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.listpost-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666;
+}
