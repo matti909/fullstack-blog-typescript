@@ -1,8 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm --prefix backend ci && pnpm build && npm --prefix backend run build",
-  "outputDirectory": "dist/client",
+  "buildCommand": "cd .. && pnpm install --frozen-lockfile && pnpm build && cd backend && npm run build",
+  "outputDirectory": "../dist/client",
   "rewrites": [
+    { "source": "/api", "destination": "/api/backend" },
     { "source": "/api/(.*)", "destination": "/api/backend" },
     { "source": "/(.*)", "destination": "/api/ssr" }
   ]
