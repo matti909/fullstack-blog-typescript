@@ -49,8 +49,6 @@ export async function createServer(
     app.use(express.static(path.join(REPO_ROOT, "dist", "client")));
   }
 
-  // Sin path: catch-all sin pasar por path-to-regexp (Express 5
-  // rechaza app.use("*")).
   app.use(async (req: Request, res: Response): Promise<void> => {
     try {
       const url = req.originalUrl;
@@ -74,9 +72,7 @@ export async function createServer(
 
       const entry: ServerEntry =
         !isProd && vite
-          ? ((await vite.ssrLoadModule(
-              "/src/entry-server.tsx",
-            )) as ServerEntry)
+          ? ((await vite.ssrLoadModule("/src/entry-server.tsx")) as ServerEntry)
           : ((await import(
               pathToFileURL(
                 path.join(REPO_ROOT, "dist", "server", "entry-server.js"),

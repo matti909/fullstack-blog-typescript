@@ -35,12 +35,18 @@ const parseSortOrder = (value: unknown): QuerySortOrder | undefined => {
 
 const generatePost = async (req: Request, res: Response) => {
   try {
-    const { contents, tags, title } = req.body as {
+    const { author, contents, tags, title } = req.body as {
+      author?: string;
       contents: string;
-      tags: [string];
+      tags?: string[];
       title: string;
     };
-    const post = await createPost({ contents, tags, title });
+    // El author lo pone el frontend desde la sesión (usuario logueado),
+    // nunca es un campo del formulario.
+    if (!author) {
+      return res.status(400).json({ message: "Missing author" });
+    }
+    const post = await createPost({ author, contents, tags, title });
 
     res.status(201).json({
       data: {

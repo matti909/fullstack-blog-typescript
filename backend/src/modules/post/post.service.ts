@@ -1,6 +1,7 @@
 import type { SortOrder } from "mongoose";
 
-import { type Blog } from "./post.model.js";
+import { Types } from "mongoose";
+import { Post } from "./post.model.js";
 import { postRepository } from "./post.repository.js";
 
 interface ListPostsOptions {
@@ -13,15 +14,29 @@ interface ListPostsQuery {
   tags?: string | string[];
 }
 
-const createPost = async (data: Pick<Blog, "contents" | "tags" | "title">) => {
-  return await postRepository.create(data);
+interface CreatePostInput {
+  author: string;
+  contents: string;
+  tags?: string[];
+  title: string;
+}
+
+const createPost = async (data: CreatePostInput) => {
+  return await postRepository.create({
+    ...data,
+    author: new Types.ObjectId(data.author),
+  });
 };
 
 const listPosts = async (
   query: ListPostsQuery = {},
   options: ListPostsOptions = {},
 ) => {
-  return await postRepository.getAll({ filter: query, sort: options });
+  const { sortBy = "createdAt", sortOrder = "descending" } = options;
+  return await Post.find(query)
+    .sort({ [sortBy]: sortOrder })
+    .populate("author", "username")
+    .lean();
 };
 
 export { createPost, listPosts };
