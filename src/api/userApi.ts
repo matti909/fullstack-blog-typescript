@@ -16,6 +16,9 @@ function rethrow(error: unknown, fallback: string): never {
   throw new Error(fallback);
 }
 
+// Mismo default que posts.ts: sin var, mismo origen.
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL ?? "/api";
+
 export const userApi = {
   signup: async ({
     password,
@@ -26,7 +29,7 @@ export const userApi = {
   }): Promise<void> => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/users/signup`,
+        `${API_BASE_URL}/users/signup`,
         {
           method: "POST",
           headers: { "Content-type": "application/json" },
@@ -47,7 +50,7 @@ export const userApi = {
   }: Credentials): Promise<LoginResponse> => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/users/login`,
+        `${API_BASE_URL}/users/login`,
         {
           method: "POST",
           headers: { "Content-type": "application/json" },
@@ -67,7 +70,7 @@ export const userApi = {
     token: string | null,
   ): Promise<LoginResponse["user"] | null> => {
     const res = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+      `${API_BASE_URL}/users/${id}`,
       {
         headers: {
           Accept: "application/json",
