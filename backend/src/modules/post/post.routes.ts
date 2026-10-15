@@ -1,10 +1,11 @@
 import { Router } from "express";
 
-import { generatePost, getPosts } from "./post.controller.js";
+import { generatePost, getPost, getPosts } from "./post.controller.js";
 
 const router = Router();
 
 router.get("/", getPosts);
+router.get("/:_id", getPost);
 router.post("/", generatePost);
 
 export { router };

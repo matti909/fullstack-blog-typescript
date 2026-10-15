@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createPost, listPosts } from "./post.service.js";
+import { createPost, getPostById, listPosts } from "./post.service.js";
 
 const VALID_SORT_ORDERS = ["asc", "ascending", "desc", "descending"] as const;
 
@@ -88,4 +88,21 @@ const getPosts = async (req: Request, res: Response) => {
   }
 };
 
-export { generatePost, getPosts };
+const getPost = async (req: Request, res: Response) => {
+  try {
+    const post = await getPostById(req.params._id as string);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    res.status(200).json({
+      data: {
+        post,
+      },
+      status: "success",
+    });
+  } catch {
+    return res.status(500).json({ message: "Failed to fetch post" });
+  }
+};
+
+export { generatePost, getPost, getPosts };

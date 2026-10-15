@@ -97,12 +97,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!cancelled) {
           setSession(LOGGED_OUT);
           setIsLoading(false);
-          // El guard no corre en servidor: si caímos en ruta protegida
-          // sin sesión, redirigimos acá en cliente.
-          const path = router.state.location.pathname;
-          if (path !== "/login" && path !== "/signup") {
-            void navigate({ to: "/login" });
-          }
+          // Sin navigate imperativo: chocaba con la hidratación
+          // (mismatch en los Links). El redirect lo hace el beforeLoad
+          // de _layout al revalidar con el contexto ya sincronizado.
+          syncRouter(LOGGED_OUT);
         }
         return;
       }

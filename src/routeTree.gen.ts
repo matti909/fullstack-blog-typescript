@@ -13,6 +13,7 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutIdRouteImport } from './routes/_layout/$id'
 import { Route as LayoutFetch_postRouteImport } from './routes/_layout/fetch_post'
 
 const LayoutRoute = LayoutRouteImport.update({
@@ -34,6 +35,11 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutIdRoute = LayoutIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutFetch_postRoute = LayoutFetch_postRouteImport.update({
   id: '/fetch_post',
   path: '/fetch_post',
@@ -44,11 +50,13 @@ export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/$id': typeof LayoutIdRoute
   '/fetch_post': typeof LayoutFetch_postRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/$id': typeof LayoutIdRoute
   '/fetch_post': typeof LayoutFetch_postRoute
   '/': typeof LayoutIndexRoute
 }
@@ -57,19 +65,21 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_layout/$id': typeof LayoutIdRoute
   '/_layout/fetch_post': typeof LayoutFetch_postRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup' | '/fetch_post'
+  fullPaths: '/' | '/login' | '/signup' | '/$id' | '/fetch_post'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/fetch_post' | '/'
+  to: '/login' | '/signup' | '/$id' | '/fetch_post' | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/login'
     | '/signup'
+    | '/_layout/$id'
     | '/_layout/fetch_post'
     | '/_layout/'
   fileRoutesById: FileRoutesById
@@ -110,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/$id': {
+      id: '/_layout/$id'
+      path: '/$id'
+      fullPath: '/$id'
+      preLoaderRoute: typeof LayoutIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/fetch_post': {
       id: '/_layout/fetch_post'
       path: '/fetch_post'
@@ -121,11 +138,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface LayoutRouteChildren {
+  LayoutIdRoute: typeof LayoutIdRoute
   LayoutFetch_postRoute: typeof LayoutFetch_postRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutIdRoute: LayoutIdRoute,
   LayoutFetch_postRoute: LayoutFetch_postRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
@@ -141,3 +160,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

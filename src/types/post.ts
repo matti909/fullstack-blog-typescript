@@ -6,9 +6,11 @@ export interface ApiPost {
   title: string;
   contents: string;
   tags: string[];
-  // `author` existe en el modelo pero createPost aún no lo persiste,
-  // por eso hoy no viene en la respuesta.
-  author?: string;
+  createdAt: string;
+  updatedAt: string;
+  // Objeto populado por el backend (el modelo guarda ObjectId).
+  // null en posts legacy sin autor.
+  author?: { _id: string; username: string } | null;
 }
 
 export interface CreatePostResponse {
@@ -43,5 +45,12 @@ export interface ListPostsResponse {
   status: "success";
   data: {
     posts: ApiPost[];
+  };
+}
+
+export interface GetPostResponse {
+  status: "success";
+  data: {
+    post: ApiPost;
   };
 }

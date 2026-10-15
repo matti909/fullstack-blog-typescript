@@ -39,4 +39,11 @@ const listPosts = async (
     .lean();
 };
 
-export { createPost, listPosts };
+const getPostById = async (id: string) => {
+  if (!Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  return await Post.findById(id).populate("author", "username").lean();
+};
+
+export { createPost, getPostById, listPosts };
